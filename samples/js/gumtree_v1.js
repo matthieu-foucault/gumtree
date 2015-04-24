@@ -7,6 +7,7 @@ if (typeof String.prototype.startsWith != 'function') {
 }
 
 function getMappedElement(eltId) {
+	console.log(eltId)
 	if (eltId.startsWith("move-src")) {
 		return eltId.replace("src","dst");  	 	
   	}
@@ -37,10 +38,9 @@ function isSrc(eltId) {
 
 $("body").keypress(
 	function (event) {
-		console.log(event.which.toString());
 		if (event.which == 110) {
 			var mapping = nextMapping();
-			$('html, body').animate({scrollTop: $(mapping).offset().top - 200}, 100);
+			$('html, body').animate({scrollTop: $(mapping).offset().top - 200}, 101);
 		} else if (event.which == 116) {
 			$('html, body').animate({scrollTop: 0}, 100);
 		} else if (event.which == 98) {
