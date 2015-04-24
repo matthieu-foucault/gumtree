@@ -15,6 +15,7 @@ import fr.labri.gumtree.actions.model.Delete;
 import fr.labri.gumtree.actions.model.Insert;
 import fr.labri.gumtree.actions.model.Move;
 import fr.labri.gumtree.actions.model.Update;
+import fr.labri.gumtree.io.TreeIoUtils.XMLFormater;
 import fr.labri.gumtree.matchers.MappingStore;
 import fr.labri.gumtree.tree.ITree;
 import fr.labri.gumtree.tree.TreeContext;
@@ -46,6 +47,34 @@ public final class ActionsIoUtils {
         }
     }
 
+    public static String toXml(TreeContext ctx, List<Action> actions) {
+    	StringWriter s = new StringWriter();
+    	XMLOutputFactory f = XMLOutputFactory.newInstance();
+          try {
+              XMLStreamWriter w = new IndentingXMLStreamWriter(f.createXMLStreamWriter(s));
+              w.writeStartDocument();
+              w.writeStartElement("actions");
+              for (Action action : actions)
+            	  writeAction(action, ctx, w);
+              w.writeEndElement();
+              w.writeEndDocument();
+              w.close();
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+          
+          return s.toString();
+    }
+    
+    public static void writeAction(Action a, TreeContext ctx, XMLStreamWriter w) throws Exception {
+    	w.writeStartElement("action");
+        w.writeAttribute("type", a.getClass().getSimpleName());
+        XMLFormater xmlFormater = new XMLFormater(w, ctx);
+        xmlFormater.startTree(a.getNode());
+        xmlFormater.endTree(a.getNode());
+    	w.writeEndElement();
+    }
+    
     public static void toXml(TreeContext sctx, List<Action> actions, MappingStore mappings, String file) throws IOException {
         FileWriter f = new FileWriter(file);
         try {

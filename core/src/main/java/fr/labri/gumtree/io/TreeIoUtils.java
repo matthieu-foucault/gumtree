@@ -316,6 +316,11 @@ public final class TreeIoUtils {
             XMLOutputFactory f = XMLOutputFactory.newInstance();
             writer = new IndentingXMLStreamWriter(f.createXMLStreamWriter(w));
         }
+        
+        protected AbsXMLFormater(XMLStreamWriter w, TreeContext ctx) {
+        	super(ctx);
+        	this.writer = w;
+		}
 
         @Override
         public void startSerialization() throws XMLStreamException {
@@ -338,7 +343,12 @@ public final class TreeIoUtils {
             super(w, ctx);
         }
 
-        @Override
+        public XMLFormater(XMLStreamWriter w, TreeContext ctx) {
+			super(w, ctx);
+		}
+
+
+		@Override
         public void startTree(ITree tree) throws XMLStreamException {
             writer.writeStartElement("tree");
             writer.writeAttribute("type", Integer.toString(tree.getType()));
