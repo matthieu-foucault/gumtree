@@ -10,6 +10,11 @@ public abstract class TreeGenerator {
 	
 	public TreeContext fromFile(String file) throws IOException {
 		TreeContext ctx = generate(file);
+		if (ctx == null){
+			ctx = new TreeContext();
+			ctx.setRoot(ctx.createTree(-1, "empty", "empty"));
+			return ctx;
+		}
 		ITree root = ctx.getRoot();
 		root.refresh();
 		TreeUtils.postOrderNumbering(root);
