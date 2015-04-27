@@ -9,7 +9,7 @@ import fr.labri.gumtree.tree.ITree;
 
 public abstract class SubtreeMatcher extends Matcher {
 
-	private static final int MIN_HEIGHT = 2;
+	private static final int MIN_HEIGHT = 1;
 
 	public SubtreeMatcher(ITree src, ITree dst) {
 		super(src, dst);
